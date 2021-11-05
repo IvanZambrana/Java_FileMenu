@@ -1,8 +1,6 @@
 package ad_2_1_3_filemenu;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
 import java.util.Scanner;
 
 /**
@@ -21,6 +19,7 @@ public class AD_2_1_3_FileMenu {
         String ruta;
         String[] paths;
         BufferedReader bf;
+        BufferedWriter bW;
         String bfRead;
         String temp = "";
         String texto;
@@ -119,6 +118,7 @@ public class AD_2_1_3_FileMenu {
                             else
                             {
                                 bf = new BufferedReader(new FileReader(archivo));
+                                temp = "";
                                 while((bfRead = bf.readLine()) != null)
                                 {
                                     temp += bfRead;
@@ -196,11 +196,109 @@ public class AD_2_1_3_FileMenu {
                     
                     case 6:
                         System.out.println("---INTRODUCIR TEXTO EN FICHERO EXISTENTE---");
+                        System.out.println("Inserte ruta del fichero existente que quiere sobrescribir: ");
+                        ruta = sc.next();
+                        //Objeto tipo File
+                        archivo = new File(ruta);
+                        
+                        //Comprobamos que existe
+                        if(archivo.exists())
+                        {
+                            //Comprobamos que es fichero
+                            if(archivo.isFile())
+                            {
+                                //Comprobamos si se puede escribir en él
+                                if(archivo.canWrite())
+                                {
+                                    //Creamos el bufferedWriter
+                                    bW = new BufferedWriter(new FileWriter(archivo));
+                                    
+                                    //Pedimos string a introducir en el fichero
+                                    System.out.println("Introduzca la cadena de texto que quiere añadir al fichero: ");
+                                    texto = sc.next();
+                                    bW.write(texto);
+                                    bW.flush();
+                                }
+                                else
+                                {
+                                    System.out.println("-ERROR- No se puede escribir en este fichero.");
+                                }
+                            }
+                            else
+                            {
+                                System.out.println("-ERROR- Ha elegido la ruta deun directorio, no de un fichero.");
+                            }
+                        }
+                        else
+                        {
+                            System.out.println("-ERROR- El fichero introducido no existe.");
+                        }
                     break;
                     
                     case 7:
                         System.out.println("---AGREGAR CADENA A UN FICHERO EXISTENTE---");
-                        //Acabar
+                         System.out.println("Inserte ruta del fichero existente que quiere sobrescribir: ");
+                        ruta = sc.next();
+                        //Objeto tipo File
+                        archivo = new File(ruta);
+                        
+                        //Comprobamos que existe
+                        if(archivo.exists())
+                        {
+                            //Comprobamos que es fichero
+                            if(archivo.isFile())
+                            {
+                                //Comprobamos si se puede escribir en él
+                                if(archivo.canWrite())
+                                {
+                                    
+                                    /*
+                                    bf = new BufferedReader(new FileReader(archivo));
+                                while((bfRead = bf.readLine()) != null)
+                                {
+                                    temp += bfRead;
+                                }*/
+                                    
+                                    //Creamos el BufferedReader, StringBuffer y BufferedWriter
+                                    bf = new BufferedReader(new FileReader(archivo));
+                                    bW = new BufferedWriter(new FileWriter(archivo));
+                                    bfRead = bf.readLine();
+                                    //temp = "";
+                                   /* while(bfRead != null)
+                                {
+                                    temp += bfRead;
+                                    System.out.println(temp);
+                                }*/
+                                    StringBuilder sb= new StringBuilder(bfRead);
+                                    
+                                    
+                                    //Pedimos string a introducir en el fichero
+                                    System.out.println("Introduzca la cadena de texto que quiere añadir al fichero: ");
+                                    texto = sc.next();
+                                    /*FileOutputStream fos = new FileOutputStream (texto, true);
+                                    fos.write(temp.getBytes());
+                                    fos.close();*/
+                                    System.out.println(texto);
+                                    sb.append(texto);
+                                    bW.write(texto);
+                                    bW.close();
+                                    
+                                }
+                                else
+                                {
+                                    System.out.println("-ERROR- No se puede escribir en este fichero.");
+                                }
+                            }
+                            else
+                            {
+                                System.out.println("-ERROR- Ha elegido la ruta deun directorio, no de un fichero.");
+                            }
+                        }
+                        else
+                        {
+                            System.out.println("-ERROR- El fichero introducido no existe.");
+                        }
+                        
                     break;
                     
                     case 8:
